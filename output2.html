@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myTruckBoss Landing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6; /* A light grey background */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .logo svg {
+            margin-right: 8px;
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+
+        .logo .logo-text {
+            color: #fff;
+        }
+
+        .logo .logo-accent {
+            color: #a0e75a; /* Yellowish green */
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav ul li {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        nav .dropdown-arrow svg {
+            width: 10px;
+            height: 10px;
+            fill: #fff;
+            margin-left: 4px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-download {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000;
+        }
+
+        .btn-download:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-login {
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #fff;
+        }
+
+        .btn-login:hover {
+            background-color: #333;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #fff; /* Assuming the white background extends to the hero section */
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin: 0;
+            color: #000;
+        }
+
+        .content-section {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            background-color: #fff; /* Assuming the white background extends to the content section */
+        }
+
+        .panel {
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 280px; /* Ensure panels don't get too narrow */
+            max-width: 400px; /* Limit maximum width */
+        }
+
+        .panel h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        /* Dashboard Panel */
+        .panel.dashboard {
+            background-color: #e6f4ff; /* Light blue */
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .profile-section .avatar {
+            width: 30px;
+            height: 30px;
+            background-color: #ccc; /* Placeholder */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            color: #555;
+        }
+
+        .profile-section .company-name {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .profile-section .dropdown-arrow svg {
+            width: 10px;
+            height: 10px;
+            fill: #333;
+        }
+
+        .dashboard-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dashboard-nav li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .dashboard-nav li svg {
+            width: 20px;
+            height: 20px;
+            fill: #333;
+        }
+
+        .dashboard-nav li.active {
+            background-color: #eaff8f; /* Yellow highlight */
+            font-weight: 600;
+        }
+
+        .dashboard-nav li.active svg {
+             fill: #000; /* Darker icon for active state */
+        }
+
+        .dashboard-data-cards {
+            margin-top: 30px;
+        }
+
+        .data-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-card .main-number {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #000;
+        }
+
+        .data-card .label {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-card .sub-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        /* Benefits Panel */
+        .panel.benefits {
+            background-color: #fff;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .benefits-list li svg {
+            width: 24px;
+            height: 24px;
+            fill: #000; /* Checkmark color */
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
+        /* Mobile Panel */
+        .panel.mobile {
+            background-color: #f9ffe6; /* Light yellow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mobile-mockup {
+            width: 100%; /* Adjust based on desired size */
+            max-width: 300px; /* Typical phone width */
+            aspect-ratio: 9/19; /* Common phone aspect ratio */
+            background-color: #000;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden; /* Hide screen overflow */
+        }
+
+        .mobile-mockup .notch {
+            width: 40%;
+            height: 25px;
+            background-color: #000;
+            border-radius: 0 0 15px 15px;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .mobile-screen {
+            background-color: #fff;
+            height: 100%;
+            width: 100%;
+            border-radius: 25px;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            padding: 0 5px;
+        }
+
+        .mobile-status-bar .time {
+            margin-left: 10px; /* Space for notch */
+        }
+
+         .mobile-status-bar .icons {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin-right: 10px; /* Space for notch */
+        }
+
+         .mobile-status-bar .icons svg {
+            width: 14px;
+            height: 14px;
+            fill: #000;
+        }
+
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .mobile-header svg {
+             width: 20px;
+            height: 20px;
+            fill: #000;
+        }
+
+        .mobile-content {
+            flex-grow: 1;
+            overflow-y: auto; /* Add scrolling if content exceeds screen height */
+            padding: 0 5px;
+        }
+
+        .mobile-section {
+            margin-bottom: 20px;
+        }
+
+        .mobile-section-title {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .mobile-detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 1em;
+        }
+
+         .mobile-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-detail-item .label {
+            font-weight: 500;
+        }
+
+        .mobile-detail-item .value {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .status-signed {
+            color: #28a745; /* Green */
+        }
+
+        .status-pending {
+            color: #ffc107; /* Yellow/Orange */
+        }
+
+        .status-signed svg, .status-pending svg {
+            width: 14px;
+            height: 14px;
+        }
+
+         .status-signed svg {
+             fill: #28a745;
+         }
+          .status-pending svg {
+             fill: #ffc107;
+         }
+
+        @media (max-width: 992px) {
+            .content-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .panel {
+                width: 90%;
+                max-width: 500px; /* Allow panels to be wider on medium screens */
+            }
+
+            header {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+
+            .header-left, .header-right {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+        }
+
+         @media (max-width: 576px) {
+             header {
+                 padding: 10px 15px;
+             }
+             .header-left {
+                 flex-direction: column;
+                 gap: 10px;
+             }
+             nav ul {
+                 flex-direction: column;
+                 gap: 10px;
+             }
+             .header-right {
+                 flex-direction: column;
+                 gap: 10px;
+             }
+             .btn {
+                 width: 100%;
+                 text-align: center;
+             }
+
+             .hero h1 {
+                 font-size: 1.5em;
+             }
+
+             .content-section {
+                 padding: 20px;
+                 gap: 20px;
+             }
+
+             .panel {
+                 padding: 20px;
+             }
+
+             .panel h2 {
+                 font-size: 1.5em;
+             }
+
+             .benefits-list li {
+                 font-size: 1em;
+             }
+
+             .mobile-mockup {
+                 max-width: 250px;
+             }
+         }
+
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 17.25L12 22L21 17.25V12L12 16.75L3 12V17.25ZM12 2L3 6.75L12 11.5L21 6.75L12 2Z" fill="currentColor"/>
+                </svg>
+                <span class="logo-text">myTruck</span><span class="logo-accent">Boss</span>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">HOW IT WORKS</a>
+                        <span class="dropdown-arrow">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </li>
+                    <li><a href="#">CONTACT US</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-right">
+            <a href="#" class="btn btn-download">
+                <svg style="width:18px;height:18px;margin-right: 5px; vertical-align: middle;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 20h14v-2H5v2zm14-9h-4V5H9v6H5l7 7 7-7z" fill="currentColor"/>
+                </svg>
+                DOWNLOAD APP
+            </a>
+            <a href="#" class="btn btn-login">LOGIN</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Real-Time Digital Tickets and Haul Sheets</h1>
+    </section>
+
+    <section class="content-section">
+        <div class="panel dashboard">
+            <h2>Dashboard</h2>
+            <div class="profile-section">
+                <div class="avatar">M</div> <!-- Placeholder -->
+                <span class="company-name">Martinez con...</span>
+                 <span class="dropdown-arrow">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+                    </svg>
+                </span>
+            </div>
+             <div class="dashboard-tabs">
+                <button style="background: none; border: none; padding: 5px 10px; cursor: pointer; font-weight: 600; border-bottom: 2px solid #000;">My Projects</button>
+                <button style="background: none; border: none; padding: 5px 10px; cursor: pointer; color: #777;">Shared Projects</button>
+            </div>
+            <div class="dashboard-nav">
+                <ul>
+                    <li class="active">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 20H4V14H10V20ZM14 20H20V12H14V20ZM10 4H4V10H10V4ZM14 4H20V10H14V4Z" fill="currentColor"/>
+                        </svg>
+                        Dashboard
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6C4.89 2 4 2.9 4 4V20C4 21.11 4.89 22 6 22H18C19.11 22 20 21.11 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z" fill="currentColor"/>
+                        </svg>
+                        Projects
+                    </li>
+                    <li>
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.63 16.53L11 13.59V7H12.5V12.66L16.16 14.84L15.63 16.53Z" fill="currentColor"/>
+                        </svg>
+                        Timecards
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 16H22V18H2V16ZM2 11H22V13H2V11ZM2 6H22V8H2V6Z" fill="currentColor"/>
+                        </svg>
+                        Truck Tickets
+                    </li>
+                     <li>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                             <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="currentColor"/>
+                        </svg>
+                        My Subscription
+                    </li>
+                     <li>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15.5L17 20.5V4H19V20.5L24 15.5L22.59 14.09L18 18.67L13.41 14.09L12 15.5ZM12 8.5L7 3.5V20H5V3.5L0 8.5L1.41 9.91L6 5.33L10.59 9.91L12 8.5Z" fill="currentColor"/>
+                        </svg>
+                        Setup
+                    </li>
+                </ul>
+            </div>
+             <div class="dashboard-data-cards">
+                 <div class="data-card">
+                     <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+                          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:#555;">
+                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19Z" fill="currentColor"/>
+                           </svg>
+                           Week
+                     </div>
+
+                     <div class="main-number">25</div>
+                     <div class="label">Timecards</div>
+                     <div class="sub-info">
+                         <span>250 Hours</span>
+                         <span>50 Avg Loads</span>
+                     </div>
+                 </div>
+                  <div class="data-card">
+                     <div class="main-number">350</div>
+                     <div class="label">Projects</div>
+                     <div class="sub-info">
+                         <span>300 Active</span>
+                         <span>50 Archive</span>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="panel benefits">
+            <h2>Benefits</h2>
+            <ul class="benefits-list">
+                <li>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                    </svg>
+                    Real-Time Digital Tickets
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                    </svg>
+                    Contractor, Driver, and Broker modes
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                    </svg>
+                    Instant Access and Full Visibility
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                    </svg>
+                    Faster Invoicing & Cash Flow
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                    </svg>
+                    Fraud Protection Built In
+                </li>
+            </ul>
+        </div>
+
+        <div class="panel mobile">
+            <h2>Mobile</h2>
+             <div class="mobile-mockup">
+                 <div class="notch"></div>
+                 <div class="mobile-screen">
+                     <div class="mobile-status-bar">
+                         <span class="time">9:17</span>
+                         <span class="icons">
+                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 4H7C5.89 4 5 4.89 5 6V18C5 19.11 5.89 20 7 20H17C18.11 20 19 19.11 19 18V6C19 4.89 18.11 4 17 4ZM17 18H7V6H17V18Z" fill="currentColor"/></svg>
+                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V6H20V18Z" fill="currentColor"/></svg>
+                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" fill="currentColor"/></svg>
+                         </span>
+                     </div>
+                     <div class="mobile-header">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                             <path d="M20 11H7.83L12.41 6.41L11 5L5 11L11 17L12.41 15.59L7.83 11H20V11Z" fill="currentColor"/>
+                         </svg>
+                         Truck Ticket
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8C13.11 8 14 7.11 14 6C14 4.89 13.11 4 12 4C10.89 4 10 4.89 10 6C10 7.11 10.89 8 12 8ZM12 10C10.89 10 10 10.89 10 12C10 13.11 10.89 14 12 14C13.11 14 14 13.11 14 12C14 10.89 13.11 10 12 10ZM12 16C10.89 16 10 16.89 10 18C10 19.11 10.89 20 12 20C13.11 20 14 19.11 14 18C14 16.89 13.11 16 12 16Z" fill="currentColor"/>
+                         </svg>
+                     </div>
+                     <div class="mobile-content">
+                         <div class="mobile-section">
+                             <div class="mobile-section-title">Signature Details</div>
+                             <div class="mobile-detail-item">
+                                 <span class="label">Driver</span>
+                                 <span class="value status-signed">
+                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" fill="currentColor"/>
+                                    </svg>
+                                     Signed
+                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><path d="M7 10l5 5 5-5H7z" fill="currentColor"/></svg>
+                                 </span>
+                             </div>
+                              <div class="mobile-detail-item">
+                                 <span class="label">Customer</span>
+                                 <span class="value status-pending">
+                                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="8" fill="currentColor"/>
+                                    </svg>
+                                     Pending
+                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><path d="M7 10l5 5 5-5H7z" fill="currentColor"/></svg>
+                                 </span>
+                             </div>
+                         </div>
+                         <div class="mobile-section">
+                              <div class="mobile-section-title">Ticket Details</div>
+                               <div class="mobile-detail-item">
+                                 <span class="label">Date</span>
+                                 <span class="value">04/02/2025</span>
+                             </div>
+                              <div class="mobile-detail-item">
+                                 <span class="label">Truck Ticket ID</span>
+                                 <span class="value">10002</span>
+                             </div>
+                         </div>
+                          <!-- Add more content here if needed to simulate scrolling -->
+                     </div>
+                 </div>
+             </div>
+        </div>
+    </section>
+
+    <script>
+        // Basic JavaScript to demonstrate potential DOM manipulation or interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded. DOM is ready.');
+
+            // Example: Highlight the active dashboard nav item (already done with CSS class)
+            const dashboardNavItems = document.querySelectorAll('.dashboard-nav li');
+            dashboardNavItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all items
+                    dashboardNavItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to the clicked item
+                    item.classList.add('active');
+                    // In a real app, you would load different content here
+                    console.log(`Nav item clicked: ${item.textContent.trim()}`);
+                });
+            });
+
+            // The instruction about using '*' for 'x' and '/' for '÷' is not directly applicable
+            // to the visual structure and components shown in the image, which is a static
+            // landing page section. No arithmetic operations are visible or implied by the design.
+            // If this were a calculator or a data processing interface, that logic would be used.
+            // For this task focused on replicating the image, that instruction is noted but not
+            // implemented as it doesn't relate to the visual output or typical interactions
+            // of the presented components.
+
+        });
+    </script>
+
+</body>
+</html>

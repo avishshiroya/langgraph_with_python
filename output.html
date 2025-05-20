@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myTruckBoss - Real-Time Digital Tickets and Haul Sheets</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff; /* White background */
+        }
+
+        .header {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .header .logo svg {
+            margin-right: 8px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .header nav ul li {
+            margin-left: 30px;
+        }
+
+        .header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+         .header nav ul li a svg {
+             margin-left: 4px;
+             width: 12px;
+             height: 12px;
+         }
+
+        .header nav ul li a:hover {
+            opacity: 1;
+        }
+
+        .header .buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 15px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .header .buttons .download-btn {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #fff;
+            display: flex;
+            align-items: center;
+        }
+
+         .header .buttons .download-btn svg {
+             margin-right: 5px;
+             width: 16px;
+             height: 16px;
+         }
+
+
+        .header .buttons .login-btn {
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #fff;
+        }
+
+         .header .buttons .download-btn:hover {
+             background-color: #f0f0f0;
+         }
+
+        .header .buttons .login-btn:hover {
+            background-color: #333;
+        }
+
+
+        .main-title {
+            text-align: center;
+            padding: 60px 20px 40px;
+            font-size: 40px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .content-area {
+            display: flex;
+            justify-content: center;
+            padding: 0 40px 60px;
+            gap: 30px;
+        }
+
+        .column {
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 280px; /* Ensure columns don't get too small */
+        }
+
+        .column h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-column {
+            background-color: #e0f2ff; /* Light blue background */
+            max-width: 350px; /* Fixed width for sidebar-like column */
+            flex: none; /* Prevent flex growth */
+        }
+
+        .dashboard-column .account-selector {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+         .dashboard-column .account-selector .account-info {
+             display: flex;
+             align-items: center;
+         }
+
+         .dashboard-column .account-selector .account-icon {
+             width: 25px;
+             height: 25px;
+             background-color: #ccc; /* Placeholder for avatar/icon */
+             border-radius: 50%;
+             margin-right: 10px;
+         }
+
+         .dashboard-column .account-selector span {
+             font-size: 14px;
+             font-weight: 500;
+         }
+
+         .dashboard-column .account-selector svg {
+             width: 12px;
+             height: 12px;
+             margin-left: 10px;
+         }
+
+        .dashboard-column .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0;
+        }
+
+        .dashboard-column .nav-list li {
+            margin-bottom: 5px;
+        }
+
+        .dashboard-column .nav-list li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+         .dashboard-column .nav-list li a svg {
+             margin-right: 12px;
+             width: 18px;
+             height: 18px;
+             fill: #333;
+         }
+
+        .dashboard-column .nav-list li a:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .dashboard-column .nav-list li.active a {
+            background-color: #ffff00; /* Yellow background */
+            font-weight: 500;
+            color: #000;
+        }
+         .dashboard-column .nav-list li.active a svg {
+             fill: #000;
+         }
+
+        .dashboard-column .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .dashboard-column .tabs button {
+            background: none;
+            border: none;
+            padding: 10px 0;
+            margin-right: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s ease, border-bottom-color 0.2s ease;
+        }
+
+        .dashboard-column .tabs button.active {
+            color: #000;
+            font-weight: 500;
+            border-bottom-color: #000;
+        }
+
+        .dashboard-column .date-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .dashboard-column .date-selector svg {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            fill: #555;
+        }
+
+        .dashboard-column .stats-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+
+        .dashboard-column .stats-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .dashboard-column .stats-card p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .dashboard-column .stats-card .sub-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .benefits-column {
+            background-color: #fff; /* White background */
+        }
+
+        .benefits-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefits-column ul li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .benefits-column ul li svg {
+            margin-right: 15px;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+            width: 24px;
+            height: 24px;
+            fill: #000; /* Black checkmark */
+            margin-top: 2px; /* Adjust vertical alignment */
+        }
+
+        .mobile-column {
+            background-color: #ffffcc; /* Light yellow background */
+        }
+
+        .mobile-column .phone-mockup {
+            width: 280px; /* Fixed width for phone */
+            height: 580px; /* Fixed height for phone */
+            background-color: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto; /* Center the phone */
+            position: relative;
+        }
+
+        .mobile-column .phone-screen {
+            background-color: #fff;
+            flex-grow: 1;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-column .phone-notch {
+            width: 100px;
+            height: 25px;
+            background-color: #000;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .phone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: #000;
+        }
+         .phone-header .status-icons {
+             display: flex;
+             align-items: center;
+         }
+         .phone-header .status-icons svg {
+             width: 14px;
+             height: 14px;
+             margin-left: 4px;
+             fill: #000;
+         }
+
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .app-header .title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+         .app-header svg {
+             width: 20px;
+             height: 20px;
+             fill: #000;
+         }
+         .app-header .back-arrow {
+             margin-right: 10px;
+         }
+
+        .ticket-details {
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .ticket-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+         .ticket-section:last-child {
+             border-bottom: none;
+             padding-bottom: 0;
+             margin-bottom: 0;
+         }
+
+
+        .ticket-section h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .ticket-item .label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .ticket-item .value {
+            color: #000;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticket-item .value .status {
+            font-size: 13px;
+            font-weight: 500;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+         .ticket-item .value .status svg {
+             width: 12px;
+             height: 12px;
+             margin-right: 4px;
+         }
+
+        .ticket-item .value .status.signed {
+            color: #28a745; /* Green */
+        }
+         .ticket-item .value .status.signed svg {
+             fill: #28a745;
+         }
+
+        .ticket-item .value .status.pending {
+            color: #ffc107; /* Orange/Yellow */
+        }
+         .ticket-item .value .status.pending svg {
+             fill: #ffc107;
+         }
+
+         .ticket-item .arrow-icon svg {
+             width: 14px;
+             height: 14px;
+             fill: #777;
+             margin-left: 10px;
+         }
+
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#aaff00;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00ffcc;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="2" y="2" width="10" height="10" fill="url(#logoGradient)"/>
+                <rect x="6" y="6" width="10" height="10" fill="#00cc66"/>
+                <rect x="10" y="10" width="10" height="10" fill="#009933"/>
+            </svg>
+            myTruckBoss
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">
+                        HOW IT WORKS
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M12 15.5l-5-5 1.41-1.41L12 12.67l3.59-3.58L17 10z"/></svg>
+                    </a>
+                </li>
+                <li><a href="#">CONTACT US</a></li>
+            </ul>
+        </nav>
+        <div class="buttons">
+            <button class="download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#000" d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"/></svg>
+                DOWNLOAD APP
+            </button>
+            <button class="login-btn">LOGIN</button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="main-title">Real-Time Digital Tickets and Haul Sheets</h1>
+
+        <section class="content-area">
+            <div class="column dashboard-column">
+                <h2>Dashboard</h2>
+                <div class="account-selector">
+                    <div class="account-info">
+                        <div class="account-icon"></div>
+                        <span>Martinez con...</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 15.5l-5-5 1.41-1.41L12 12.67l3.59-3.58L17 10z"/></svg>
+                </div>
+
+                <ul class="nav-list">
+                    <li class="active"><a href="#" data-section="dashboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        Dashboard
+                    </a></li>
+                    <li><a href="#" data-section="projects">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-2 16H9v-2h3v2zm0-4H9v-2h3v2zm3-4H9V8h6v4zm2-4V4.5L17.5 9H14v-4z"/></svg>
+                        Projects
+                    </a></li>
+                    <li><a href="#" data-section="timecards">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 7c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm8-2c0-5.52-4.48-10-10-10S3 5.48 3 11c0 2.08.64 4.01 1.72 5.64L3 18.36l1.64 1.64L7 18.28A9.94 9.94 0 0 0 13 21c5.52 0 10-4.48 10-10zm-2 0c0 4.33-3.57 7.84-8 7.92V11c0-3.87-3.13-7-7-7-.08 4.43 3.4 8 7.92 8H11c4.33 0 7.84 3.57 7.92 8 4.43-.08 8-3.6 8-7.92z"/></svg>
+                        Timecards
+                    </a></li>
+                    <li><a href="#" data-section="truck-tickets">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 14H4c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zm0 5c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v3zm-1-7V5c0-.55-.45-1-1-1H6c-.55 0-1 .45-1 1v7H4V5c0-1.65 1.35-3 3-3h10c1.65 0 3 1.35 3 3v7h-1zM6.5 6c-.83 0-1.5.67-1.5 1.5S5.67 9 6.5 9 8 8.33 8 7.5 7.33 6 6.5 6zm11 0c-.83 0-1.5.67-1.5 1.5S16.67 9 17.5 9s1.5-.67 1.5-1.5S18.33 6 17.5 6z"/></svg>
+                        Truck Tickets
+                    </a></li>
+                     <li><a href="#" data-section="subscription">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                        My Subscription
+                    </a></li>
+                    <li><a href="#" data-section="setup">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.09-.73-1.71-.99l-.37-2.65c-.06-.24-.27-.42-.51-.42h-4c-.25 0-.45.18-.51.42l-.37 2.65c-.62.26-1.19.59-1.71.99l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.09.73 1.71.99l.37 2.65c.06.24.27.42.51.42h4c.25 0-.45-.18-.51-.42l-.37-2.65c.62-.26 1.19-.59 1.71-.99l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                        Setup
+                    </a></li>
+                </ul>
+
+                <div class="tabs">
+                    <button class="active">My Projects</button>
+                    <button>Shared Projects</button>
+                </div>
+                 <div class="date-selector">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm-9-5h4v4h-4z"/></svg>
+                     Week
+                 </div>
+
+                <div class="stats-card">
+                    <h3>25</h3>
+                    <p>Timecards</p>
+                    <div class="sub-stats">
+                        <span>250 Hours</span>
+                        <span>50 Avg Loads</span>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <h3>350</h3>
+                    <p>Projects</p>
+                    <div class="sub-stats">
+                        <span>300 Active</span>
+                        <span>50 Archive</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="column benefits-column">
+                <h2>Benefits</h2>
+                <ul>
+                    <li>
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        Real-Time Digital Tickets
+                    </li>
+                    <li>
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        Contractor, Driver, and Broker modes
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        Instant Access and Full Visibility
+                    </li>
+                    <li>
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        Faster Invoicing & Cash Flow
+                    </li>
+                    <li>
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        Fraud Protection Built In
+                    </li>
+                </ul>
+            </div>
+
+            <div class="column mobile-column">
+                <h2>Mobile</h2>
+                <div class="phone-mockup">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="phone-header">
+                            <span>9:17</span>
+                            <div class="status-icons">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 4h3v16h-3zM5 14h3v6H5zm6-5h3v11h-3z"/></svg> <!-- Signal icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 .21zm12.5-3.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z"/></svg> <!-- Wifi icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4h-3V2h-2v2H9V2H7v2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H4V6h16v14zM6 10h2v2H6zm0 4h2v2H6zm4 0h2v2h-2zm4 0h2v2h-2zm0-4h2v2h-2zm0-4h2v2h-2zm-4 4h2v2h-2zm0-4h2v2h-2z"/></svg> <!-- Battery icon (simplified) -->
+                            </div>
+                        </div>
+                        <div class="app-header">
+                             <svg class="back-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            <span class="title">Truck Ticket</span>
+                             <svg class="options-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                        </div>
+                        <div class="ticket-details">
+                            <div class="ticket-section">
+                                <h4>Signature Details</h4>
+                                <div class="ticket-item">
+                                    <span class="label">Driver</span>
+                                    <span class="value">
+                                        <span class="status signed">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                                            Signed
+                                        </span>
+                                         <span class="arrow-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/></svg></span>
+                                    </span>
+                                </div>
+                                <div class="ticket-item">
+                                    <span class="label">Customer</span>
+                                    <span class="value">
+                                        <span class="status pending">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>
+                                            Pending
+                                        </span>
+                                        <span class="arrow-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/></svg></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ticket-section">
+                                <h4>Ticket Details</h4>
+                                <div class="ticket-item">
+                                    <span class="label">Date</span>
+                                    <span class="value">04/02/2025</span>
+                                </div>
+                                <div class="ticket-item">
+                                    <span class="label">Truck Ticket ID</span>
+                                    <span class="value">10002</span>
+                                </div>
+                            </div>
+                            <!-- Add more ticket details here if needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dashboard Navigation Active State
+            const navLinks = document.querySelectorAll('.dashboard-column .nav-list a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    navLinks.forEach(item => item.parentElement.classList.remove('active'));
+                    link.parentElement.classList.add('active');
+                    // Add logic here to load content based on data-section attribute if needed
+                    console.log('Nav item clicked:', link.getAttribute('data-section'));
+                });
+            });
+
+            // Dashboard Tabs Active State
+            const tabButtons = document.querySelectorAll('.dashboard-column .tabs button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    tabButtons.forEach(item => item.classList.remove('active'));
+                    button.classList.add('active');
+                    // Add logic here to show/hide tab content if needed
+                    console.log('Tab clicked:', button.textContent);
+                });
+            });
+
+            // Note on JS logic for calculations (as per prompt instruction):
+            // The image does not contain any visible elements that suggest calculation functionality
+            // (like input fields for numbers, operators, or a display for results).
+            // Therefore, the instruction about replacing 'x' with '*' or '÷' with '/'
+            // for background logic is not applicable to the components shown in the image.
+            // If there were input fields for numbers and an operation selector (like x or ÷),
+            // the JS logic would involve:
+            // 1. Getting values from input fields.
+            // 2. Getting the selected operation symbol.
+            // 3. Replacing the visual symbol ('x', '÷') with the JS operator ('*', '/').
+            // 4. Performing the calculation using the JS operator.
+            // 5. Displaying the result.
+            // Example (conceptual, not implemented as it's not in the image):
+            /*
+            function calculate(num1, num2, operatorSymbol) {
+                let result;
+                let jsOperator;
+                switch (operatorSymbol) {
+                    case 'x':
+                        jsOperator = '*';
+                        result = num1 * num2;
+                        break;
+                    case '÷':
+                        jsOperator = '/';
+                        result = num1 / num2;
+                        break;
+                    // add other cases like '+' or '-'
+                    default:
+                        return 'Invalid operator';
+                }
+                console.log(`Calculation: ${num1} ${jsOperator} ${num2} = ${result}`);
+                return result;
+            }
+            // Example usage if there were inputs:
+            // let value1 = parseFloat(document.getElementById('input1').value);
+            // let value2 = parseFloat(document.getElementById('input2').value);
+            // let selectedOp = document.getElementById('operator-select').value; // e.g., 'x', '÷'
+            // let calculationResult = calculate(value1, value2, selectedOp);
+            // document.getElementById('result-display').textContent = calculationResult;
+            */
+        });
+    </script>
+
+</body>
+</html>
