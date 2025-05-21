@@ -1,0 +1,171 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
+}
+
+header {
+    background-color: #000;
+    padding: 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo svg text {
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.login button {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+main {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 50px); /* Adjust based on header height */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(50%) blur(5px);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+    color: white;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content .container {
+     max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.text-content {
+    max-width: 500px;
+    margin-right: 40px; /* Space between text and phones */
+}
+
+.text-content h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.text-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.download-button {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.phone-mockups {
+    display: flex;
+    position: relative;
+    width: 600px; /* Adjust based on phone sizes and overlap */
+    height: 600px; /* Adjust based on phone sizes */
+}
+
+.phone {
+    position: absolute;
+}
+
+.phone-left {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-10deg);
+    z-index: 2;
+}
+
+.phone-right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(10deg);
+    z-index: 1;
+}
+
+.phone svg {
+    width: 300px; /* Adjust size */
+    height: 600px; /* Adjust size */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 40px;
+}
+
+.phone svg rect:first-of-type {
+     fill: none;
+     stroke: #333;
+}
+
+
+

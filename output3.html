@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myTruckBoss</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic Reset and Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background-color: #1a1a1a;
+            overflow-x: hidden;
+            /* Prevent horizontal scroll from background elements */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            /* Adjust as needed */
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            /* Adjust as needed */
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #8EFF00;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .button svg {
+            margin-right: 8px;
+        }
+
+        .button:hover {
+            background-color: #76db00;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Semi-transparent dark background */
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            /* Optional: Add blur effect */
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo svg {
+            width: 140px;
+            height: 30px;
+        }
+
+        nav ul.nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav .dropdown {
+            position: relative;
+        }
+
+        nav .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        nav .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 5px;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        nav .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav .dropdown-menu li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        nav .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        nav .dropdown-menu a {
+            color: #fff;
+            display: block;
+        }
+
+        .login-button {
+            color: #8EFF00;
+            border: 1px solid #8EFF00;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #8EFF00;
+            color: #000;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            /* Full viewport height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            padding-top: 80px;
+            /* Space for fixed header */
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-background .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .hero-images {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-right: 50px;
+            /* Adjust spacing */
+        }
+
+        .app-screenshot {
+            position: absolute;
+            border-radius: 30px;
+            /* Rounded corners for phone */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            /* Hide content outside border-radius */
+        }
+
+        .screen-1 {
+            width: 250px;
+            /* Adjust size */
+            height: 500px;
+            /* Adjust size */
+            left: 0;
+            /* Position relative to hero-images container */
+            bottom: -50px;
+            /* Adjust overlap */
+            z-index: 5;
+        }
+
+        .screen-2 {
+            width: 250px;
+            /* Adjust size */
+            height: 500px;
+            /* Adjust size */
+            right: 0;
+            /* Position relative to hero-images container */
+            top: -50px;
+            /* Adjust overlap */
+            z-index: 4;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background-color: #1a1a1a;
+            /* Match footer background */
+            padding: 80px 0;
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .benefit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #333;
+            /* Dark circle background */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .benefit-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .benefit-item p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+
+        /* Real-Time Section */
+        .real-time {
+            background-color: #f4f4f4;
+            /* Light grey background */
+            color: #333;
+            padding: 80px 0;
+        }
+
+        .real-time .container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .real-time-content {
+            flex: 1;
+        }
+
+        .real-time-content h2 {
+            text-align: left;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        .real-time-benefits {
+            margin-bottom: 30px;
+        }
+
+        .real-time-benefits li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .real-time-benefits li svg {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .real-time-images {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 50px;
+            /* Adjust spacing */
+        }
+
+        .real-time-images .app-screenshot {
+            position: absolute;
+            border-radius: 20px;
+            /* Slightly less rounded than hero */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .real-time-images .screen-3 {
+            width: 200px;
+            height: 400px;
+            left: 0;
+            bottom: -30px;
+            z-index: 5;
+        }
+
+        .real-time-images .screen-4 {
+            width: 200px;
+            height: 400px;
+            z-index: 4;
+        }
+
+        .real-time-images .screen-5 {
+            width: 200px;
+            height: 400px;
+            right: 0;
+            top: -30px;
+            z-index: 5;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: #1a1a1a;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .features-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            background-color: #2a2a2a;
+            /* Dark card background */
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #3a3a3a;
+            /* Slightly lighter circle */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .feature-item h3 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .feature-item ul {
+            list-style: disc;
+            margin-left: 20px;
+            color: #ccc;
+            font-size: 1rem;
+        }
+
+        .feature-item ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Network Section */
+        .network {
+            background-color: #f4f4f4;
+            /* Light grey background */
+            color: #333;
+            padding: 80px 0;
+        }
+
+        .network-content {
+            max-width: 800px;
+            /* Limit width for readability */
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .network-text h2 {
+            color: #1a1a1a;
+        }
+
+        .network-text p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .network-text ul {
+            list-style: disc;
+            margin: 20px auto 30px auto;
+            text-align: left;
+            max-width: 600px;
+            /* Align list items */
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .network-text ul li {
+            margin-bottom: 10px;
+        }
+
+        .network-text ul li strong {
+            color: #1a1a1a;
+        }
+
+        /* Mid Download Section */
+        .mid-download {
+            background: linear-gradient(to right, #8EFF00, #5cb800);
+            /* Green gradient */
+            color: #000;
+            padding: 60px 0;
+        }
+
+        .mid-download-content {
+            display: flex;
+            justify-content: center;
+        }
+
+        .mid-download-text {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .mid-download-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .mid-download-text .button {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        .mid-download-text .button:hover {
+            background-color: #333;
+        }
+
+        /* FAQ Section */
+        .faq {
+            background-color: #f4f4f4;
+            /* Light grey background */
+            color: #333;
+            padding: 80px 0;
+        }
+
+        .faq h2 {
+            color: #1a1a1a;
+        }
+
+        .accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            background-color: transparent;
+            color: #1a1a1a;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            text-align: left;
+            padding: 20px 0;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            color: #8EFF00;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            fill: #1a1a1a;
+            /* Icon color */
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #eee;
+            /* Slightly different background for content */
+            padding: 0 20px;
+        }
+
+        .accordion-content p {
+            padding: 20px 0;
+            margin-bottom: 0;
+            color: #555;
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: #1a1a1a;
+            padding: 80px 0;
+        }
+
+        .contact-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .contact-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contact-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-form-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contact-form-box {
+            background-color: #2a2a2a;
+            /* Dark form background */
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .contact-form-box h2 {
+            text-align: left;
+            color: #fff;
+        }
+
+        .contact-form-box p {
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .contact-form-box p a {
+            color: #8EFF00;
+            text-decoration: underline;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row input,
+        .form-row textarea {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-row input::placeholder,
+        .form-row textarea::placeholder {
+            color: #aaa;
+        }
+
+        .form-row textarea {
+            resize: vertical;
+            flex-basis: 100%;
+            /* Make textarea take full width */
+        }
+
+        .contact-form-box .button {
+            width: auto;
+            display: inline-flex;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            padding: 60px 0 20px 0;
+            position: relative;
+            overflow: hidden;
+            /* Contain the background text */
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            /* Adjust column distribution */
+            gap: 40px;
+            align-items: flex-start;
+            /* Align items to the top */
+            position: relative;
+            /* Position relative for background text */
+            z-index: 2;
+            /* Ensure content is above background text */
+        }
+
+        .footer-info .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-info p {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+            transition: fill 0.3s ease;
+        }
+
+        .social-icons a:hover svg {
+            fill: #8EFF00;
+        }
+
+        .footer-nav ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-nav a {
+            color: #ccc;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: #8EFF00;
+        }
+
+        .footer-download .button {
+            margin-top: 20px;
+            /* Space above button */
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #777;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-background-text {
+            position: absolute;
+            bottom: -10%;
+            /* Adjust position */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 15rem;
+            /* Large font size */
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.05);
+            /* Very transparent white */
+            pointer-events: none;
+            /* Don't block clicks */
+            user-select: none;
+            /* Don't select text */
+            z-index: 1;
+            /* Behind footer content */
+            line-height: 1;
+            /* Adjust vertical spacing */
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero-images {
+                padding-right: 0;
+                position: static;
+                /* Remove absolute positioning for smaller screens */
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .hero-images .app-screenshot {
+                position: static;
+                width: 200px;
+                height: 400px;
+            }
+
+            .real-time .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .real-time-content h2 {
+                text-align: center;
+            }
+
+            .real-time-images {
+                padding-left: 0;
+                position: static;
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .real-time-images .app-screenshot {
+                position: static;
+                width: 150px;
+                height: 300px;
+            }
+
+            .contact-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .contact-image {
+                flex: none;
+                width: 80%;
+                /* Limit image width */
+                max-width: 400px;
+                /* Max width for image */
+            }
+
+            .contact-form-area {
+                flex: none;
+                width: 100%;
+            }
+
+            .contact-form-box {
+                padding: 30px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                /* Stack columns */
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-info,
+            .footer-nav,
+            .footer-download {
+                text-align: center;
+            }
+
+            .footer-nav ul {
+                padding: 0;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+
+            .footer-download .button {
+                margin-top: 0;
+            }
+
+            .footer-background-text {
+                font-size: 8rem;
+                /* Adjust large text size */
+                bottom: 0;
+                opacity: 0.1;
+                /* Make it slightly more visible */
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            nav ul.nav-links {
+                gap: 20px;
+            }
+
+            nav .dropdown-menu {
+                min-width: 120px;
+            }
+
+            .benefit-grid,
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .real-time-images {
+                flex-wrap: wrap;
+                /* Allow images to wrap */
+                gap: 10px;
+            }
+
+            .real-time-images .app-screenshot {
+                width: 120px;
+                height: 240px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .contact-form-box {
+                padding: 20px;
+            }
+
+            .footer-background-text {
+                font-size: 6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul.nav-links {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            nav .dropdown-menu {
+                position: static;
+                /* Remove absolute positioning */
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background-color: transparent;
+                border: none;
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            nav .dropdown:hover .dropdown-menu {
+                transform: none;
+                /* Override hover transform */
+            }
+
+
+            nav .dropdown-menu li {
+                padding: 5px 0;
+                border-bottom: none;
+            }
+
+            .login-button {
+                padding: 10px 20px;
+            }
+
+            .hero-images {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-images .app-screenshot {
+                width: 180px;
+                height: 360px;
+            }
+
+            .real-time-images {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .real-time-images .app-screenshot {
+                width: 150px;
+                height: 300px;
+            }
+
+
+            .footer-background-text {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <svg width="140" height="30" viewBox="0 0 140 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M0 15C0 6.71573 6.71573 0 15 0H125C133.284 0 140 6.71573 140 15C140 23.2843 133.284 30 125 30H15C6.71573 30 0 23.2843 0 15Z"
+                        fill="#8EFF00" />
+                    <path
+                        d="M32.7221 22.9829L30.9395 22.9829L27.7347 16.7859H27.6755L24.4707 22.9829H22.6882L27.5517 13.3927H27.8582L32.7221 22.9829ZM40.5358 22.9829L38.7533 22.9829L35.5485 16.7859H35.4893L32.2845 22.9829H30.5019L35.3654 13.3927H35.672L40.5358 22.9829ZM50.4706 22.9829V13.3927H48.8039V11.9174H50.4706V10.8518C50.4706 9.91363 50.1683 9.28705 49.5636 8.97196C48.9589 8.65688 48.1086 8.50005 46.9926 8.50005H43.9902V10.0557H46.9926C47.4808 10.0557 47.8047 10.1441 47.9644 10.3209C48.124 10.4978 48.2038 10.7324 48.2038 11.0248V11.9174H45.774V13.3927H48.2038V22.9829H50.4706ZM54.9811 22.9829V8.65688H57.2479V22.9829H54.9811ZM65.538 22.9829V13.3927H63.8712V11.9174H65.538V10.8518C65.538 9.91363 65.2356 9.28705 64.6309 8.97196C64.0262 8.65688 63.1759 8.50005 62.0599 8.50005H59.0575V10.0557H62.0599C62.5481 10.0557 62.872 10.1441 63.0316 10.3209C63.1913 10.4978 63.2711 10.7324 63.2711 11.0248V11.9174H60.8413V13.3927H63.2711V22.9829H65.538ZM74.0232 22.9829V11.9174H71.1426V13.3927H72.1433V22.9829H74.0232ZM83.0053 22.9829V13.3927H81.3385V11.9174H83.0053V10.8518C83.0053 9.91363 82.703 9.28705 82.0983 8.97196C81.4936 8.65688 80.6433 8.50005 79.5272 8.50005H76.5249V10.0557H79.5272C80.0154 10.0557 80.3393 10.1441 80.4989 10.3209C80.6585 10.4978 80.7384 10.7324 80.7384 11.0248V11.9174H78.3086V13.3927H80.7384V22.9829H83.0053ZM87.8146 22.9829V8.65688H90.0814V22.9829H87.8146ZM94.3406 22.9829L92.5581 22.9829L89.3533 16.7859H89.2941L86.0893 22.9829H84.3068L89.1703 13.3927H89.4769L94.3406 22.9829Z"
+                        fill="black" />
+                </svg>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">How It Works
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z" fill="white" />
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">For Haulers</a></li>
+                            <li><a href="#">For Brokers</a></li>
+                            <li><a href="#">For Contractors</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="login-button">Login</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-background">
+                <!-- Using a static image as a placeholder for the video background -->
+                <img src="https://picsum.photos/id/106/1920/1080" alt="Background image of construction site">
+                <div class="overlay"></div>
+            </div>
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h1>The Digital Truck Ticket</h1>
+                    <p>myTruckBoss is a digital ticket book for dump trucks and sitework contractors. If you are using
+                        paper tickets to track trucks by the load or by the hour, you need to download this app today.
+                    </p>
+                    <a href="#" class="button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 16L7 11L8.41 9.59L11 12.17V4H13V12.17L15.59 9.59L17 11L12 16ZM6 20C5.45 20 4.979 19.804 4.587 19.412C4.195 19.02 3.999 18.549 4 18V15H6V18H18V15H20V18C20 18.55 19.804 19.021 19.412 19.413C19.02 19.805 18.549 20.001 18 20H6Z"
+                                fill="black" />
+                        </svg>
+                        Download App
+                    </a>
+                </div>
+                <div class="hero-images">
+                    <img src="https://picsum.photos/id/237/250/500" alt="App screenshot 1"
+                        class="app-screenshot screen-1">
+                    <img src="https://picsum.photos/id/238/250/500" alt="App screenshot 2"
+                        class="app-screenshot screen-2">
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <div class="container benefit-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13 21C12.7167 21 12.479 20.904 12.287 20.712C12.095 20.52 11.999 20.2823 12 20V19H5C4.45 19 3.979 18.804 3.587 18.412C3.195 19.02 3.999 18.549 4 18V6C4 5.45 4.196 4.979 4.588 4.587C4.98 4.195 5.451 3.999 6 4H14L20 10V18C20 18.55 19.804 19.021 19.412 19.413C19.02 19.805 18.549 20.001 18 20V20.71L13 21ZM13 11H18.5L13 5.5V11ZM6 18H18V10H12V4H6V18Z"
+                                fill="#8EFF00" />
+                        </svg>
+                    </div>
+                    <p>Digital instead of paper</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M16 17V19H2V17C2 15.67 4.67 15 8 15C11.33 15 14 15.67 14 17ZM12 5.9C12 7.51 10.66 8.8 9 8.8C7.34 8.8 6 7.51 6 5.9C6 4.29 7.34 3 9 3C10.66 3 12 4.29 12 5.9ZM15 11C14.35 11 13.71 11.07 13.1 11.2C13.95 11.86 14.59 12.79 15 13.88C15.03 13.93 15.05 13.99 15.08 14.04C16.02 14.17 16.91 14.45 17.72 14.86C18.52 15.26 19.25 15.78 19.85 16.4C19.93 16.49 19.97 16.59 20.02 16.7C20.08 16.81 20.13 16.91 20.16 17H22C21.97 16.15 21.64 15.39 21 14.74C20.36 14.09 19.56 13.58 18.64 13.25C17.72 12.92 16.73 12.75 15.67 12.75C15.47 12.75 15.26 12.75 15.06 12.76C15.04 12.76 15.02 12.76 15 12.76V11ZM15 5.9C15 6.58 14.77 7.16 14.32 7.64C13.87 8.12 13.28 8.39 12.55 8.5C12.83 8.53 13.09 8.57 13.33 8.62C13.57 8.67 13.82 8.75 14.07 8.84C14.32 8.93 14.57 9.04 14.81 9.18C15.06 9.31 15.31 9.46 15.55 9.64C15.79 9.82 16.03 10.01 16.26 10.23C16.49 10.44 16.71 10.68 16.9 10.94C17.09 11.2 17.26 11.48 17.41 11.79C17.56 12.09 17.68 12.42 17.78 12.76C17.88 13.1 17.95 13.46 17.99 13.84C18 13.87 18 13.91 18 13.94V11C18 10.35 17.92 9.71 17.8 9.1C18.46 8.25 19.39 7.61 20.48 7.2C21.57 6.79 22.67 6.58 23.77 6.58C23.82 6.58 23.87 6.58 23.91 6.58C23.95 6.58 24 6.58 24 6.58C24 5.73 23.67 4.97 23.02 4.32C22.37 3.67 21.61 3.34 20.76 3.01C19.91 2.68 19.03 2.46 18.13 2.36C17.23 2.26 16.32 2.21 15.4 2.21C14.62 2.21 13.86 2.27 13.12 2.38C12.38 2.49 11.66 2.65 10.96 2.85C10.26 3.05 9.59 3.29 8.95 3.57C8.31 3.85 7.72 4.17 7.18 4.52C6.64 4.87 6.17 5.27 5.77 5.71C5.37 6.15 5.04 6.63 4.79 7.15C4.54 7.67 4.37 8.22 4.29 8.8C4.21 9.38 4.18 9.97 4.2 10.57C4.22 11.17 4.28 11.77 4.39 12.37C4.5 12.97 4.65 13.55 4.84 14.1C5.03 14.65 5.26 15.18 5.53 15.68C5.8 16.18 6.11 16.65 6.46 17.08C6.81 17.51 7.2 17.9 7.63 18.24C8.06 18.58 8.52 18.87 9.02 19.1C9.52 19.33 10.05 19.51 10.6 19.63C11.15 19.75 11.71 19.81 12.29 19.81C12.91 19.81 13.52 19.75 14.11 19.62C14.7 19.49 15.27 19.32 15.82 19.11C16.37 18.9 16.89 18.65 17.39 18.37C17.89 18.09 18.36 17.77 18.8 17.43C19.24 17.09 19.64 16.72 20 16.32C20.36 15.92 20.69 15.49 20.98 15.03C21.27 14.57 21.51 14.09 21.7 13.59C21.89 13.09 22.03 12.57 22.13 12.03C22.23 11.49 22.29 10.94 22.31 10.38C22.33 9.82 22.32 9.26 22.27 8.7Z"
+                                fill="#8EFF00" />
+                        </svg>
+                    </div>
+                    <p>Use individually or as an organization</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 20.5L4.5 13L6.375 11.125L12 16.625L17.625 11.125L19.5 13L12 20.5ZM12 13.5L4.5 6L6.375 4.125L12 9.625L17.625 4.125L19.5 6L12 13.5Z"
+                                fill="#8EFF00" />
+                        </svg>
+                    </div>
+                    <p>Try it for Free!</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17ZM12 9C13.65 9 15 10.35 15 12C15 13.65 13.65 15 12 15C10.35 15 9 13.65 9 12C9 10.35 10.35 9 12 9ZM12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2ZM12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4Z"
+                                fill="#8EFF00" />
+                        </svg>
+                    </div>
+                    <p>Eliminate ticket fraud</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="real-time">
+            <div class="container">
+                <div class="real-time-content">
+                    <h2>Real-Time Digital Tickets and Haul Sheets</h2>
+                    <ul class="real-time-benefits">
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.55 18L3.85 12.3L5.275 10.875L9.55 15.15L18.725 5.975L20.15 7.4L9.55 18Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                            Real-Time Digital Tickets
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.55 18L3.85 12.3L5.275 10.875L9.55 15.15L18.725 5.975L20.15 7.4L9.55 18Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                            Faster Invoicing & Cash Flow
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.55 18L3.85 12.3L5.275 10.875L9.55 15.15L18.725 5.975L20.15 7.4L9.55 18Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                            Fraud Protection Built In
+                        </li>
+                    </ul>
+                </div>
+                <div class="real-time-images">
+                    <img src="https://picsum.photos/id/239/200/400" alt="App screenshot 3"
+                        class="app-screenshot screen-3">
+                    <img src="https://picsum.photos/id/240/200/400" alt="App screenshot 4"
+                        class="app-screenshot screen-4">
+                    <img src="https://picsum.photos/id/241/200/400" alt="App screenshot 5"
+                        class="app-screenshot screen-5">
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Features</h2>
+                <p class="features-subtitle">The functionality you wish you had.</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 8H4C2.9 8 2 8.9 2 10V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V10C22 8.9 21.1 8 20 8ZM20 20H4V10H20V20ZM16 12H8V14H16V12ZM16 15H8V17H16V15Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                        </div>
+                        <h3>Hauler Experience</h3>
+                        <ul>
+                            <li>Create digital tickets</li>
+                            <li>Collect customer signatures on-site</li>
+                            <li>Add photos and GPS data for verification</li>
+                        </ul>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 18H4V6H20V18ZM4 4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4H4Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                        </div>
+                        <h3>Portal</h3>
+                        <ul>
+                            <li>Centralize access, streamline communication, and improve efficiency.</li>
+                        </ul>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 16C14.76 16 17 13.76 17 11C17 8.24 14.76 6 12 6C9.24 6 7 8.24 7 11C7 13.76 9.24 16 12 16ZM12 8C13.65 8 15 9.35 15 11C15 12.65 13.65 14 12 14C10.35 14 9 12.65 9 11C9 9.35 10.35 8 12 8ZM12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2ZM12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4ZM10 15H14V17H10V15ZM10 18H14V20H10V18Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                        </div>
+                        <h3>Broker Experience</h3>
+                        <ul>
+                            <li>No more disputes with contractors over unreadable tickets or forged names</li>
+                            <li>Brokers eliminate billing errors and protect their margins</li>
+                        </ul>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18 16C18 17.11 17.11 18 16 18C14.89 18 14 17.11 14 16C14 14.89 14.89 14 16 14C17.11 14 18 14.89 18 16ZM12 8C12 9.11 11.11 10 10 10C8.89 10 8 9.11 8 8C8 6.89 8.89 6 10 6C11.11 6 12 6.89 12 8ZM16 8C16 9.11 15.11 10 14 10C12.89 10 12 9.11 12 8C12 6.89 12.89 6 14 6C15.11 6 16 6.89 16 8ZM18 12C18 10.89 17.11 10 16 10C14.89 10 14 10.89 14 12C14 13.11 14.89 14 16 14C17.11 14 18 13.11 18 12ZM10 12C10 10.89 9.11 10 8 10C6.89 10 6 10.89 6 12C6 13.11 6.89 14 8 14C9.11 14 10 13.11 10 12ZM12 16C12 14.89 11.11 14 10 14C8.89 14 8 14.89 8 16C8 17.11 8.89 18 10 18C11.11 18 12 17.11 12 16Z"
+                                    fill="#8EFF00" />
+                            </svg>
+                        </div>
+                        <h3>Share Tickets</h3>
+                        <ul>
+                            <li>Collaborate with your existing Network the way you do today; the only change is
+                                eliminating the Paper.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="network">
+            <div class="container network-content">
+                <div class="network-text">
+                    <h2>Build Your Own Hauling Network</h2>
+                    <p>With myTruckBoss, you're not just digitizing tickets—you're building a customized, connected
+                        network of everyone involved in your hauling operations, both inside and outside your
+                        organization.</p>
+                    <p>Your network can include:</p>
+                    <ul>
+                        <li><strong>Drivers</strong> –Solo or fleet drivers logging and submitting digital tickets in
+                            real time</li>
+                        <li><strong>Haulers/Brokers</strong> –Managing demand, billing, and overseeing operations</li>
+                        <li><strong>Contractors</strong> –Approving tickets and viewing job progress</li>
+                    </ul>
+                    <p>Everyone operates from a shared source of truth—digitally.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mid-download">
+            <div class="container mid-download-content">
+                <div class="mid-download-text">
+                    <p>myTruckBoss puts every ticket, signature, and job detail at your fingertips—in real time. Track
+                        smarter, pay faster, and stop losing money. It's everything the construction hauling world has
+                        been missing, all in one app.</p>
+                    <p>Download myTruckBoss and take control of your workflow today.</p>
+                    <a href="#" class="button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 16L7 11L8.41 9.59L11 12.17V4H13V12.17L15.59 9.59L17 11L12 16ZM6 20C5.45 20 4.979 19.804 4.587 19.412C4.195 19.02 3.999 18.549 4 18V15H6V18H18V15H20V18C20 18.55 19.804 19.021 19.412 19.413C19.02 19.805 18.549 20.001 18 20H6Z"
+                                fill="black" />
+                        </svg>
+                        Download App
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq">
+            <div class="container">
+                <h2>Have Question About myTruckBoss</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header">How to Create a Timecard?
+                            <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="white" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Content for How to Create a Timecard...</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">How to Get Started with the App?
+                            <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="white" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Content for How to Get Started with the App...</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">How to Export Data to Excel or CSV?
+                            <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="white" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Content for How to Export Data to Excel or CSV?...</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">How to Share a Timecard?
+                            <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="white" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Content for How to Share a Timecard?...</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">What is myTruckBoss?
+                            <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="white" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Content for What is myTruckBoss?...</p>
+                        </div>
+                    </div>
+                    <!-- Add more FAQ items as needed -->
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="container contact-container">
+                <div class="contact-image">
+                    <img src="https://picsum.photos/id/242/400/600" alt="Construction worker smiling">
+                </div>
+                <div class="contact-form-area">
+                    <div class="contact-form-box">
+                        <h2>Contact us</h2>
+                        <p>Have questions or need assistance? Send us a message here or email us at <a
+                                href="mailto:support@mytruckboss.com">support@mytruckboss.com</a>.</p>
+                        <form id="contactForm">
+                            <div class="form-row">
+                                <input type="text" id="firstName" name="firstName" placeholder="First name *">
+                                <input type="text" id="lastName" name="lastName" placeholder="Last name *">
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Mobile number *">
+                                <input type="email" id="emailAddress" name="emailAddress" placeholder="Email address *">
+                            </div>
+                            <div class="form-row">
+                                <textarea id="message" name="message" placeholder="Write a message *"
+                                    rows="6"></textarea>
+                            </div>
+                            <button type="submit" class="button">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-col footer-info">
+                <div class="logo footer-logo">
+                    <svg width="140" height="30" viewBox="0 0 140 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0 15C0 6.71573 6.71573 0 15 0H125C133.284 0 140 6.71573 140 15C140 23.2843 133.284 30 125 30H15C6.71573 30 0 23.2843 0 15Z"
+                            fill="#8EFF00" />
+                        <path
+                            d="M32.7221 22.9829L30.9395 22.9829L27.7347 16.7859H27.6755L24.4707 22.9829H22.6882L27.5517 13.3927H27.8582L32.7221 22.9829ZM40.5358 22.9829L38.7533 22.9829L35.5485 16.7859H35.4893L32.2845 22.9829H30.5019L35.3654 13.3927H35.672L40.5358 22.9829ZM50.4706 22.9829V13.3927H48.8039V11.9174H50.4706V10.8518C50.4706 9.91363 50.1683 9.28705 49.5636 8.97196C48.9589 8.65688 48.1086 8.50005 46.9926 8.50005H43.9902V10.0557H46.9926C47.4808 10.0557 47.8047 10.1441 47.9644 10.3209C48.124 10.4978 48.2038 10.7324 48.2038 11.0248V11.9174H45.774V13.3927H48.2038V22.9829H50.4706ZM54.9811 22.9829V8.65688H57.2479V22.9829H54.9811ZM65.538 22.9829V13.3927H63.8712V11.9174H65.538V10.8518C65.538 9.91363 65.2356 9.28705 64.6309 8.97196C64.0262 8.65688 63.1759 8.50005 62.0599 8.50005H59.0575V10.0557H62.0599C62.5481 10.0557 62.872 10.1441 63.0316 10.3209C63.1913 10.4978 63.2711 10.7324 63.2711 11.0248V11.9174H60.8413V13.3927H63.2711V22.9829H65.538ZM74.0232 22.9829V11.9174H71.1426V13.3927H72.1433V22.9829H74.0232ZM83.0053 22.9829V13.3927H81.3385V11.9174H83.0053V10.8518C83.0053 9.91363 82.703 9.28705 82.0983 8.97196C81.4936 8.65688 80.6433 8.50005 79.5272 8.50005H76.5249V10.0557H79.5272C80.0154 10.0557 80.3393 10.1441 80.4989 10.3209C80.6585 10.4978 80.7384 10.7324 80.7384 11.0248V11.9174H78.3086V13.3927H80.7384V22.9829H83.0053ZM87.8146 22.9829V8.65688H90.0814V22.9829H87.8146ZM94.3406 22.9829L92.5581 22.9829L89.3533 16.7859H89.2941L86.0893 22.9829H84.3068L89.1703 13.3927H89.4769L94.3406 22.9829Z"
+                            fill="black" />
+                    </svg>
+                </div>
+                <p>A Digital Ticket Book that captures hours worked, load counts, material moved, cost vs budget and
+                    more! Download the app today to get started.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.11 3.89 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3ZM8 19H5V9H8V19ZM6.5 7.75C5.67 7.75 5 7.08 5 6.25C5 5.42 5.67 4.75 6.5 4.75C7.33 4.75 8 5.42 8 6.25C8 7.08 7.33 7.75 6.5 7.75ZM19 19H16V13.5C16 12.12 14.88 11 13.5 11C12.12 11 11 12.12 11 13.5V19H8V9H11V10.5C11.96 9.58 13.28 9 14.75 9C17.17 9 19 10.83 19 13.25V19Z"
+                                fill="white" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="X (formerly Twitter)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M22.46 2.92001C21.67 3.27001 20.82 3.51001 19.94 3.63001C20.84 3.10001 21.51 2.27001 21.83 1.32001C20.91 1.85001 19.9 2.23001 18.81 2.45001C17.96 1.55001 16.81 1.00001 15.56 1.00001C13.16 1.00001 11.21 2.95001 11.21 5.35001C11.21 5.69001 11.25 6.02001 11.33 6.34001C7.58 6.16001 4.26 4.34001 1.91 1.58001C1.52 2.25001 1.29 3.02001 1.29 3.83001C1.29 5.31001 2.05 6.61001 3.24 7.37001C2.52 7.35001 1.83 7.15001 1.22 6.82001C1.22 6.84001 1.22 6.86001 1.22 6.88001C1.22 8.94001 2.66 10.66001 4.55 11.04001C4.2 11.14001 3.82 11.19001 3.43 11.19001C3.17 11.19001 2.92 11.16001 2.69 11.11001C3.22 12.77001 4.79 13.98001 6.68 14.01001C5.24 15.13001 3.45 15.82001 1.56 15.82001C1.24 15.82001 0.93 15.8 0.62 15.76C2.44 16.92001 4.66 17.62001 7.08 17.62001C15.55 17.62001 20.29 10.50001 20.29 4.39001C20.29 4.20001 20.29 4.00001 20.28 3.82001C21.18 3.17001 21.92 2.40001 22.46 2.92001Z"
+                                fill="white" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM18 7H15V9H18V12H15V18H12V12H9V9H12V6C12 4.34 13.34 3 15 3H18V7Z"
+                                fill="white" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C15.31 2 18 4.69 18 8V16C18 19.31 15.31 22 12 22C8.69 22 6 19.31 6 16V8C6 4.69 8.69 2 12 2ZM12 4C9.79 4 8 5.79 8 8V16C8 18.21 9.79 20 12 20C14.21 20 16 18.21 16 16V8C16 5.79 14.21 4 12 4ZM18 7C18.55 7 19 6.55 19 6C19 5.45 18.55 5 18 5C17.45 5 17 5.45 17 6C17 6.55 17.45 7 18 7Z"
+                                fill="white" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col footer-nav">
+                <ul>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-download">
+                <a href="#" class="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 16L7 11L8.41 9.59L11 12.17V4H13V12.17L15.59 9.59L17 11L12 16ZM6 20C5.45 20 4.979 19.804 4.587 19.412C4.195 19.02 3.999 18.549 4 18V15H6V18H18V15H20V18C20 18.55 19.804 19.021 19.412 19.413C19.02 19.805 18.549 20.001 18 20H6Z"
+                            fill="black" />
+                    </svg>
+                    Download App
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© Copyright 2025, All Rights Reserved</p>
+        </div>
+        <div class="footer-background-text">MYTRUCKBOSS</div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Header Dropdown functionality for "How It Works"
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Toggle visibility based on current state
+                    const isVisible = dropdownMenu.style.visibility === 'visible';
+                    dropdownMenu.style.opacity = isVisible ? '0' : '1';
+                    dropdownMenu.style.visibility = isVisible ? 'hidden' : 'visible';
+                    dropdownMenu.style.transform = isVisible ? 'translateY(10px)' : 'translateY(0)';
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(10px)';
+                    }
+                });
+            }
+
+
+            // FAQ Accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const accordionItem = header.parentElement;
+                    const accordionContent = header.nextElementSibling;
+                    const icon = header.querySelector('.accordion-icon');
+
+                    // Check if this item is already active
+                    const isActive = accordionItem.classList.contains('active');
+
+                    // Close all other open accordions
+                    document.querySelectorAll('.accordion-item.active').forEach(openItem => {
+                        if (openItem !== accordionItem) {
+                            openItem.classList.remove('active');
+                            openItem.querySelector('.accordion-content').style.maxHeight = null;
+                            openItem.querySelector('.accordion-icon').classList.remove('active'); // Remove icon active class
+                        }
+                    });
+
+                    // Toggle the clicked accordion item
+                    accordionItem.classList.toggle('active');
+                    icon.classList.toggle('active'); // Toggle icon active class
+
+                    if (isActive) {
+                        // If it was active, close it
+                        accordionContent.style.maxHeight = null; // Reset max-height
+                    } else {
+                        // If it was not active, open it
+                        // Set max-height to scrollHeight to enable the transition
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // Example: Smooth scroll for internal links (optional, based on common practice)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - document.querySelector('header').offsetHeight, // Adjust for fixed header
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Basic form validation example (optional, based on structure)
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    // Prevent default submission for this example
+                    e.preventDefault();
+                    console.log('Form submitted (client-side validation example)');
+
+                    // Example validation: check required fields
+                    const requiredFields = contactForm.querySelectorAll('input[placeholder*="*"], textarea[placeholder*="*"]');
+                    let allValid = true;
+
+                    requiredFields.forEach(field => {
+                        if (field.value.trim() === '') {
+                            field.style.border = '1px solid red'; // Highlight invalid field
+                            allValid = false;
+                        } else {
+                            field.style.border = '1px solid #555'; // Reset border
+                        }
+                    });
+
+                    if (allValid) {
+                        console.log('Form is valid! (Would submit here)');
+                        // In a real application, you would send the form data here
+                        // e.g., using fetch() or XMLHttpRequest
+                        // alert('Form submitted successfully!'); // Or show a success message
+                        // contactForm.reset(); // Reset form fields
+                    } else {
+                        console.log('Please fill in all required fields.');
+                        // alert('Please fill in all required fields.'); // Or show an error message
+                    }
+                });
+            }
+
+            // Note: The prompt mentions using '*' for 'x' and '/' for '÷' in JS logic.
+            // This typically applies to calculator-like interfaces or data processing
+            // where these symbols are used in input/output. This website layout doesn't
+            // seem to require such mathematical operations based on the design.
+            // If there were, for instance, calculations on ticket data displayed on the page,
+            // the JS would handle parsing input strings ('5 * 10') and performing the
+            // corresponding operation (5 * 10) using the correct JS operators.
+            // As there's no clear place for this in the provided design, this specific
+            // instruction isn't directly implemented but is understood for contexts
+            // where arithmetic is involved based on user input or displayed data.
+
+        });
+    </script>
+</body>
+
+</html>
