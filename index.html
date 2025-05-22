@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Orange Cap Info</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .info-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInScale 1s ease-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-container h2 {
+            color: #ff8c00; /* Orange color */
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .info-container p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .info-container .highlight {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info-container .note {
+            font-style: italic;
+            color: #777;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        .orange-icon {
+            color: #ff8c00;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="info-container">
+    <div class="orange-icon">🏆</div>
+    <h2>IPL Orange Cap Winner 2032</h2>
+    <p>The Indian Premier League (IPL) season of <span class="highlight">2032 is in the future</span>.</p>
+    <p>The <span class="highlight">Orange Cap</span> is awarded to the player who scores the most runs in a single IPL season.</p>
+    <p>Since the 2032 season has not happened yet, the Orange Cap winner is <span class="highlight">not known</span> at this time.</p>
+    <p>Predicting the winner for a future season is quite challenging as it depends on many factors, including player form, team performance, fitness, and new talents emerging over the years.</p>
+    <p class="note">We'll have to wait for the season to be played to find out who earns the prestigious Orange Cap in 2032!</p>
+</div>
+
+<script>
+    // Basic JavaScript to ensure the animation runs when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.querySelector('.info-container');
+        // The CSS animation handles the initial fade-in
+        // No extra JS needed for the basic animation defined in CSS
+    });
+</script>
+
+</body>
+</html>
